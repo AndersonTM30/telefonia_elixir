@@ -10,6 +10,11 @@ defmodule Assinante do
     |> Enum.find(fn assinante -> assinante.numero == numero end)
   end
 
+  # conceito de simple function
+  def assinantes_prepago(), do: read(:prepago)
+  def assinantes_pospago(), do: read(:pospago)
+  def assinantes(), do: read(:prepago) ++ read(:pospago)
+
   def cadastrar(nome, numero, cpf, plano \\ :prepago) do
     # valida se o assinante já está cadastrado
     case buscar_assinante(numero) do
