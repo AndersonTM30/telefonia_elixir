@@ -5,9 +5,31 @@ defmodule Assinante do
   # criando uma variável de módulo
   @assinantes %{:prepago => "pre.txt", :pospago => "pos.txt"}
 
-  def buscar_assinante(numero) do
-    read(:prepago) ++ read(:pospago)
-    |> Enum.find(fn assinante -> assinante.numero == numero end)
+  def buscar_assinante(numero, key \\ :all) do
+    # read(:prepago) ++ read(:pospago)
+    buscar(numero, key)
+  end
+
+  # conceito de call by pattern
+  defp buscar(numero, :prepago) do
+    IO.inspect "busca prepago"
+    assinantes_prepago()
+    # exemplo de função anônima
+    Enum.find(assinantes(), &(&1.numero == numero))
+  end
+
+  defp buscar(numero, :pospago) do
+    IO.inspect "busca pospago"
+    assinantes_pospago()
+    # exemplo de função anônima
+    Enum.find(assinantes(), &(&1.numero == numero))
+  end
+
+  defp buscar(numero, :all) do
+    IO.inspect "busca geral"
+    assinantes()
+    # exemplo de função anônima
+    Enum.find(assinantes(), &(&1.numero == numero))
   end
 
   # conceito de simple function
