@@ -5,32 +5,15 @@ defmodule Assinante do
   # criando uma variável de módulo
   @assinantes %{:prepago => "pre.txt", :pospago => "pos.txt"}
 
-  def buscar_assinante(numero, key \\ :all) do
-    # read(:prepago) ++ read(:pospago)
-    buscar(numero, key)
-  end
-
+  def buscar_assinante(numero, key \\ :all), do: buscar(numero, key)
   # conceito de call by pattern
-  defp buscar(numero, :prepago) do
-    IO.inspect "busca prepago"
-    assinantes_prepago()
-    # exemplo de função anônima
-    Enum.find(assinantes(), &(&1.numero == numero))
-  end
+  defp buscar(numero, :all), do: filtro(assinantes_prepago(), numero)
 
-  defp buscar(numero, :pospago) do
-    IO.inspect "busca pospago"
-    assinantes_pospago()
-    # exemplo de função anônima
-    Enum.find(assinantes(), &(&1.numero == numero))
-  end
+  defp buscar(numero, :all), do: filtro(assinantes_pospago(), numero)
 
-  defp buscar(numero, :all) do
-    IO.inspect "busca geral"
-    assinantes()
-    # exemplo de função anônima
-    Enum.find(assinantes(), &(&1.numero == numero))
-  end
+  defp buscar(numero, :all), do: filtro(assinantes(), numero)
+
+  defp filtro(lista, numero), do: Enum.find(lista, &(&1.numero == numero))
 
   # conceito de simple function
   def assinantes_prepago(), do: read(:prepago)
@@ -58,8 +41,13 @@ defmodule Assinante do
   end
 
   def read(plano) do
-    {:ok, assinantes} = File.read(@assinantes[plano])
-    assinantes
-    |> :erlang.binary_to_term()
+    # case statment para instruções condicionais
+    case File.read(@assinantes[plano]) do
+      {:ok, assinantes} ->
+        assinantes
+        |> :erlang.binary_to_term()
+      {:error, :ennoent} ->
+        {:error, "Arquivo inválido!"}
+    end
   end
 end
