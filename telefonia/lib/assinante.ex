@@ -7,9 +7,9 @@ defmodule Assinante do
 
   def buscar_assinante(numero, key \\ :all), do: buscar(numero, key)
   # conceito de call by pattern
-  defp buscar(numero, :all), do: filtro(assinantes_prepago(), numero)
+  defp buscar(numero, :prepago), do: filtro(assinantes_prepago(), numero)
 
-  defp buscar(numero, :all), do: filtro(assinantes_pospago(), numero)
+  defp buscar(numero, :pospago), do: filtro(assinantes_pospago(), numero)
 
   defp buscar(numero, :all), do: filtro(assinantes(), numero)
 
