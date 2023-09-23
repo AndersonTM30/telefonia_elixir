@@ -1,5 +1,11 @@
 # criando um struct
 defmodule Assinante do
+  @moduledoc """
+    Módulo de assinante para cadastro de tipos de assinantes como prepago e pospago
+
+    A função mais utilizada é a função `cadastrar/4`
+  """
+
   defstruct nome: nil, numero: nil, cpf: nil, plano: nil
 
   # criando uma variável de módulo
@@ -20,6 +26,25 @@ defmodule Assinante do
   def assinantes_pospago(), do: read(:pospago)
   def assinantes(), do: read(:prepago) ++ read(:pospago)
 
+  @doc """
+    Função para cadastrar assinante seja ele `prepago` e `pospago`
+
+    ##  Parâmetros da Função
+
+    - nome: parâmetro do nome do assinante
+    - numero: núemro único e caso exista pode retornar um erro
+    - cpf: parâmetro de assinante
+    - plano: opcional e caso não seja informado será cadastrado um assinante `prepago`
+
+    ## Informações Adicionais
+
+    - caso o número já exista ele exibirá uma mensagem de erro
+
+    ## Exemplo
+
+        iex> Assinante.cadastrar("Joao", "123123", "123456")
+        {:ok, "Assinante Joao cadastrado com sucesso!"}
+  """
   def cadastrar(nome, numero, cpf, plano \\ :prepago) do
     # valida se o assinante já está cadastrado
     case buscar_assinante(numero) do
