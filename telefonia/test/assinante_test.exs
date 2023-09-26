@@ -44,4 +44,12 @@ defmodule AssinanteTest do
     end
   end
 
+  describe "deletar" do
+    test "deve deletar o assinante" do
+      Assinante.cadastrar("Anderson", "123", "123")
+      Assinante.cadastrar("João", "333", "78945612341")
+      assert Assinante.deletar("123") == {:ok, "Assinante Anderson deletado!"}
+    end
+  end
+
 end
